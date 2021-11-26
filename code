@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    tools{
+        maven 'mymaven'
+    }
+
+    stages {
+        stage('Git Checkeout') {
+            steps {
+              script{
+                cleanWs()
+                git 'https://github.com/devops-trainer/DevOpsClassCodes.git'
+              }
+            }
+        }
+        stage('Compile') {
+            steps {
+                script{
+                sh 'mvn compile'
+                }
+            }
+        }
+        stage('Code Review') {
+            steps {
+                sh 'mvn pmd:pmd'
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                echo 'Unit Testing script should be written here'
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Packaging steps should be written here'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh "mvn deploy"
+            }
+        }
+        
+    }
+}
